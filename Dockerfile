@@ -43,10 +43,19 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 ENV PATH="/opt/poetry/bin:$PATH"
 RUN poetry config virtualenvs.create false
 
+
+# install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
+RUN poetry install --no-dev
+
+# quicker install as runtime deps are already installed
+RUN poetry install
+
+
 # install postgres dependencies
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
     && pip install psycopg2
+
 
 # copy project requirement files here to ensure they will be cached.
 WORKDIR $PYSETUP_PATH
