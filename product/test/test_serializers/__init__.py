@@ -1,0 +1,2 @@
+from .test_category_serializers import TestCategorySerializer
+from .test_product_serializers import TestProductSerializer
